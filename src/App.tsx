@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { v1 } from 'uuid';
 import './App.css';
 import {taskPropsType, Todolist} from "./Todolist";
 
@@ -7,20 +8,20 @@ export type filterType = 'all' | 'active' | 'completed'
 function App() {
 
     let [tasks, setTasks] = useState<Array<taskPropsType>>([
-        {id: 1, title: 'HTML&CSS', isDone: true},
-        {id: 2, title: 'JS', isDone: true},
-        {id: 3, title: 'React', isDone: false},
-        {id: 4, title: 'Hello World', isDone: false},
-        {id: 5, title: 'This will be my first time hiking in the mountains', isDone: true},
-        {id: 6, title: 'It is working', isDone: false},
-        {id: 7, title: 'I am not the same anymore.', isDone: true},
-        {id: 8, title: 'What about you', isDone: false},
-        {id: 9, title: 'Do you really want to do this?', isDone: true}
+        {id: v1(), title: 'HTML&CSS', isDone: true},
+        {id: v1(), title: 'JS', isDone: true},
+        {id: v1(), title: 'React', isDone: false},
+        {id: v1(), title: 'Hello World', isDone: false},
+        {id: v1(), title: 'This will be my first time hiking in the mountains', isDone: true},
+        {id: v1(), title: 'It is working', isDone: false},
+        {id: v1(), title: 'I am not the same anymore.', isDone: true},
+        {id: v1(), title: 'What about you', isDone: false},
+        {id: v1(), title: 'Do you really want to do this?', isDone: true}
     ])
 
     let tasksForRender = tasks
 
-    let [filter, setFilter] = useState<filterType>('all')
+    const [filter, setFilter] = useState<filterType>('all')
 
     if(filter === 'active') {
         tasksForRender = tasks.filter( t => !t.isDone )
@@ -31,9 +32,13 @@ function App() {
         setFilter(value)
     }
 
-    const removeTask = (taskID: number) => {
+    const removeTask = (taskID: string) => {
         tasksForRender = tasks.filter( t => t.id !== taskID )
         setTasks(tasksForRender)
+    }
+
+    const addNewTask = (title: string) => {
+        setTasks([{id: v1(), title, isDone: false}, ...tasks])
     }
 
     return (
@@ -42,6 +47,7 @@ function App() {
                       tasks={tasksForRender}
                       removeTask={removeTask}
                       filterTasks={filterTasks}
+                      addNewTask={addNewTask}
             />
         </div>
     );
