@@ -41,6 +41,15 @@ function App() {
         setTasks([{id: v1(), title, isDone: false}, ...tasks])
     }
 
+    const changeStatus = (id: string, isDone: boolean) => {
+        // let taskForChange = tasks.find(t => t.id)
+        // if (taskForChange) {
+        //     taskForChange.isDone = isDone
+        //     setTasks([...tasks])
+        // }
+        setTasks(tasks.map( t => t.id === id ? {...t, isDone: isDone} : t ))
+    }
+
     return (
         <div className="App">
             <Todolist heading={'What to learn 1'}
@@ -48,6 +57,8 @@ function App() {
                       removeTask={removeTask}
                       filterTasks={filterTasks}
                       addNewTask={addNewTask}
+                      changeStatus={changeStatus}
+                      filterStatus={filter}
             />
         </div>
     );

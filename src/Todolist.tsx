@@ -7,6 +7,8 @@ type propsType = {
     removeTask: (id: string) => void
     filterTasks: (filterType: filterType) => void
     addNewTask: (title: string) => void
+    changeStatus: (id: string, isDone: boolean) => void
+    filterStatus: filterType
 }
 
 export type taskPropsType = {
@@ -18,13 +20,20 @@ export type taskPropsType = {
 export const Todolist = (props: propsType) => {
 
     const [inputValue, setInputValue] = useState('')
+    const [error, setError] = useState('')
 
     const tasks = props.tasks.map(t => {
         const onRemoveTaskHandler = () => props.removeTask(t.id)
+
+        const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+            props.changeStatus(t.id, e.currentTarget.checked)
+            console.log(e.currentTarget.checked)
+        }
+
         return (
             <li key={t.id}>
-                <input type="checkbox" checked={t.isDone}/>
-                <span>{t.title} </span>
+                <input onChange={changeStatusHandler} type="checkbox" checked={t.isDone}/>
+                <span className={t.isDone ? 'doneTask' : ''}>{t.title} </span>
                 <button onClick={ onRemoveTaskHandler }>X</button>
             </li>
         )
@@ -34,11 +43,16 @@ export const Todolist = (props: propsType) => {
     const onActiveFilterTasksHandler = () => props.filterTasks('active')
     const onCompletedFilterTasksHandler = () => props.filterTasks('completed')
     const onAddNewTaskHandler = () => {
-        props.addNewTask(inputValue)
+        if(inputValue.trim() !== '') {
+            props.addNewTask(inputValue)
+        } else {
+            setError('This field is required!')
+        }
         setInputValue('')
     }
     const onInputChangeHandler= (event: ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.currentTarget.value)
+        setError('')
     }
     const onInputKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
         if(event.key === 'Enter') onAddNewTaskHandler()
@@ -48,16 +62,17 @@ export const Todolist = (props: propsType) => {
         <div>
             <h3>{props.heading}</h3>
             <div>
-                <input onKeyPress={onInputKeyPressHandler} onChange={onInputChangeHandler} value={inputValue}/>
+                <input className={error !== '' ? 'input-required' : ''} onKeyPress={onInputKeyPressHandler} onChange={onInputChangeHandler} value={inputValue}/>
                 <button onClick={onAddNewTaskHandler}>+</button>
+                {error && <p className="required-field">{error}</p>}
             </div>
             <ul>
                 {tasks}
             </ul>
             <div>
-                <button onClick={ onAllFilterTasksHandler }>All</button>
-                <button onClick={ onActiveFilterTasksHandler }>Active</button>
-                <button onClick={ onCompletedFilterTasksHandler }>Completed</button>
+                <button className={props.filterStatus === 'all' ? 'active-filter' : ''} onClick={ onAllFilterTasksHandler }>All</button>
+                <button className={props.filterStatus === 'active' ? 'active-filter' : ''} onClick={ onActiveFilterTasksHandler }>Active</button>
+                <button className={props.filterStatus === 'completed' ? 'active-filter' : ''} onClick={ onCompletedFilterTasksHandler }>Completed</button>
             </div>
         </div>
     )

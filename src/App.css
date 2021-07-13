@@ -6,3 +6,28 @@
 .App > div {
   margin-right: 50px;
 }
+
+.required-field {
+  color: red;
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+input {
+  outline: none;
+}
+
+.input-required {
+  border-color: red;
+  position: relative;
+}
+
+.active-filter {
+  border-color: black;
+  background-color: blueviolet;
+  color: white;
+}
+
+.doneTask {
+  opacity: .5;
+}
