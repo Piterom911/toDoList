@@ -23,12 +23,6 @@ function App() {
         {id: toDoListID2, title: 'What to buy?', status: 'all'}
     ])
 
-    const removeToDoList = (toDoLostID: string) => {
-        setToDoLists(toDoLists.filter(tdl => tdl.id !== toDoLostID))
-        delete tasks[toDoLostID]
-        setTasks({...tasks})
-    }
-
     const [tasks, setTasks] = useState<tasksStateType>({
         [toDoListID1]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
@@ -51,41 +45,32 @@ function App() {
         ],
     })
 
+    const removeToDoList = (toDoLostID: string) => {
+        setToDoLists(toDoLists.filter(tdl => tdl.id !== toDoLostID))
+        delete tasks[toDoLostID]
+        setTasks({...tasks})
+    }
+
     const onChangeListNameHandler = (listID: string, value: string) => {
-        let currentList = toDoLists.find(l => l.id === listID)
-        if (currentList) {
-            currentList.title = value
-            setToDoLists([...toDoLists])
-        }
+        setToDoLists(toDoLists.map( tdl => tdl.id === listID ? {...tdl, title: value} : tdl))
     }
 
     const onChangeItemValueHandler = (listID: string, itemID: string, value: string) => {
-        const currentItem = tasks[listID].find(i => i.id === itemID)
-        if (currentItem) {
-            currentItem.title = value
-            setTasks({...tasks})
-        }
+        setTasks({...tasks, [listID]: tasks[listID].map( t => t.id === itemID ? {...t, title: value} : t)})
     }
 
     const filterTasks = (toDoListID: string, value: filterType) => {
-        let currenList = toDoLists.find(l => l.id === toDoListID)
-        if (currenList) {
-            currenList.status = value
-            setToDoLists([...toDoLists])
-        }
+        setToDoLists(toDoLists.map( tdl => tdl.id === toDoListID ? {...tdl, status: value} : tdl))
     }
 
     const removeTask = (toDoListID: string, taskID: string) => {
-        let newTasks = tasks[toDoListID]
-        let filteredTasks = newTasks.filter(t => t.id !== taskID)
-        tasks[toDoListID] = filteredTasks
+        tasks[toDoListID] = tasks[toDoListID].filter(t => t.id !== taskID)
         setTasks({...tasks})
     }
 
     const addNewTask = (toDoListID: string, title: string) => {
         const newTask = {id: v1(), title, isDone: false}
-        tasks[toDoListID] = [newTask, ...tasks[toDoListID]]
-        setTasks({...tasks})
+        setTasks({...tasks, [toDoListID]: [newTask, ...tasks[toDoListID]]})
     }
 
     const changeStatus = (toDoListID: string, id: string, isDone: boolean) => {
