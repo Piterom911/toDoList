@@ -8,12 +8,12 @@ export enum ACTIONS_TYPE {
     CHANGE_TODOLIST_FILTER = 'CHANGE-TODOLIST-FILTER',
 }
 
-type RemoveToDoListType = { type: 'REMOVE-TODOLIST'; id: string }
-type AddToDoListType = { type: 'ADD-TODOLIST'; title: string }
-type ChangeToDoListFilterType = { type: 'CHANGE-TODOLIST-FILTER'; id: string; status: FilterType }
-type ChangeToDoListTitleType = { type: 'CHANGE-TODOLIST-TITLE'; id: string; title: string}
+export type RemoveToDoListType = { type: 'REMOVE-TODOLIST'; tdlID: string; }
+export type AddToDoListType = { type: 'ADD-TODOLIST'; tdlID: string; title: string;  }
+export type ChangeToDoListFilterType = { type: 'CHANGE-TODOLIST-FILTER'; id: string; status: FilterType }
+export type ChangeToDoListTitleType = { type: 'CHANGE-TODOLIST-TITLE'; id: string; title: string; }
 
-type ActionType = RemoveToDoListType
+export type ActionType = RemoveToDoListType
     | AddToDoListType
     | ChangeToDoListFilterType
     | ChangeToDoListTitleType
@@ -21,11 +21,11 @@ type ActionType = RemoveToDoListType
 export const toDoListReducer = (state: ToDoListsType[], action: ActionType) => {
     switch (action.type) {
         case 'REMOVE-TODOLIST':
-            return state.filter( tdl => tdl.id !== action.id)
+            return state.filter( tdl => tdl.id !== action.tdlID)
         case 'ADD-TODOLIST': {
             return [
                 ...state,
-                {title: action.title, id: v1(), status: 'all'}
+                {title: action.title, id: action.tdlID, status: 'all'}
             ]
         }
         case 'CHANGE-TODOLIST-TITLE': {
@@ -47,8 +47,8 @@ export const toDoListReducer = (state: ToDoListsType[], action: ActionType) => {
     }
 }
 
-export const removeToDoList = (id: string): RemoveToDoListType => ({type: 'REMOVE-TODOLIST', id})
-export const addToDoList = (title: string): AddToDoListType => ({type: 'ADD-TODOLIST', title})
+export const removeToDoList = (tdlID: string): RemoveToDoListType => ({type: 'REMOVE-TODOLIST', tdlID})
+export const addToDoList = (title: string): AddToDoListType => ({type: 'ADD-TODOLIST', title, tdlID: v1(),})
 export const changeToDoListFilter = (id: string, status: FilterType): ChangeToDoListFilterType => (
     {type: 'CHANGE-TODOLIST-FILTER', id, status}
 )
