@@ -1,4 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, FocusEvent, useState} from "react";
+import {TextField} from "@material-ui/core";
 
 export type EditableSpanPropsType = {
     isDone: boolean
@@ -32,13 +33,13 @@ export function EditableSpan(props: EditableSpanPropsType) {
     }
 
     return edit
-        ? <input onKeyPress={onEnterKeyHandler}
-                 onChange={onChangeValueHandler}
-                 onBlur={onFocusBlur} value={value}
-                 autoFocus
-                 type="text"/>
+        ? <TextField onKeyPress={onEnterKeyHandler}
+                     onChange={onChangeValueHandler}
+                     onBlur={onFocusBlur} value={value}
+                     autoFocus
+                     type="text"/>
         : <span onDoubleClick={onSetEditHandler}
                 className={props.isDone
                     ? 'doneTask'
-                    : ''}>{props.title} </span>
+                    : 'inProcess'}>{props.title} </span>
 }

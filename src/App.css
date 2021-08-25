@@ -1,6 +1,16 @@
 .App {
-  padding: 30px;
   display: flex;
+}
+
+.container {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.toDoList {
+  max-width: 300px;
+  width: 100%;
 }
 
 .App > div {
@@ -30,4 +40,51 @@ input {
 
 .doneTask {
   opacity: .5;
+}
+
+.inProcess {
+  color: #3f51b5;
+  font-weight: 700;
+  border-bottom: 1px solid #3f51b5;
+}
+
+.iconTrash {
+  margin-left: auto !important;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  flex-wrap: wrap;
+  transition: background-color .15s ease-in-out;
+  border-radius: 5px;
+}
+
+.listItem:nth-child(odd) {
+  background-color: #f6f6f6;
+}
+
+.listItem:hover {
+  background-color: #eefceb;
+}
+
+.listWrapper {
+  padding: 0;
+}
+
+.itemCheckBox {
+  margin-right: 15px;
+}
+
+.listInputAria {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.addNewList {
+  max-width: 300px;
+  margin-top: 20px;
+  margin-bottom: 30px;
 }

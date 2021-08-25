@@ -1,4 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {IconButton, TextField} from "@material-ui/core";
+import {AddBox} from "@material-ui/icons";
 
 type AddNewItemPropsType = {
     addNewItem: (title: string) => void
@@ -26,11 +28,17 @@ export function AddNewItem(props: AddNewItemPropsType) {
     }
 
     return (
-        <div>
-            <input className={error !== '' ? 'input-required' : ''} onKeyPress={onInputKeyPressHandler}
-                   onChange={onInputChangeHandler} value={inputValue}/>
-            <button onClick={onAddNewTaskHandler}>+</button>
-            {error && <p className="required-field">{error}</p>}
+        <div className="listInputAria">
+            <TextField variant="outlined" size="small"
+                       label="New item name"
+                       title="Here you can add a new item to the list"
+                       helperText={error} error={!!error}
+                       onKeyPress={onInputKeyPressHandler}
+                       onChange={onInputChangeHandler}
+                       value={inputValue}/>
+            <IconButton color="primary" onClick={onAddNewTaskHandler}>
+                <AddBox />
+            </IconButton>
         </div>
     )
 }

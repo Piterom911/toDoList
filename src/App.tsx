@@ -3,6 +3,8 @@ import {v1} from 'uuid';
 import './App.css';
 import {taskPropsType, Todolist} from "./Todolist";
 import {AddNewItem} from "./components/AddNewItem/AddNewItem";
+import {AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
+import {Menu} from "@material-ui/icons";
 
 export type filterType = 'all' | 'active' | 'completed'
 type toDoListsType = {
@@ -29,11 +31,9 @@ function App() {
             {id: v1(), title: 'JS', isDone: true},
             {id: v1(), title: 'React', isDone: false},
             {id: v1(), title: 'Redux', isDone: false},
-            {id: v1(), title: 'MobX', isDone: false},
             {id: v1(), title: 'Thank', isDone: false},
             {id: v1(), title: 'Axios', isDone: false},
             {id: v1(), title: 'Rest API', isDone: false},
-            {id: v1(), title: 'And more...', isDone: false}
         ],
         [toDoListID2]: [
             {id: v1(), title: 'Knowledge', isDone: true},
@@ -85,35 +85,51 @@ function App() {
     }
 
     return (
-        <div>
-            <div style={{marginLeft: "30px"}}>
-                <h4>Add New List</h4>
-                <AddNewItem addNewItem={addNewList}/>
-            </div>
-            <div className="App">
-                {toDoLists.map(tdl => {
-                    let tasksForRender = tasks[tdl.id]
+        <>
+            <AppBar position="static">
+                <Toolbar variant="dense">
+                    <IconButton edge="start" color="inherit" aria-label="menu">
+                        <Menu />
+                    </IconButton>
+                    <Typography variant="h6" color="inherit">
+                        My To Do Lists
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+            <Container>
+                <div className="addNewList">
+                    <Paper style={{padding: "15px" }}>
+                        <h2 style={{margin: 0}}>Add New List</h2>
+                        <AddNewItem addNewItem={addNewList}/>
+                    </Paper>
+                </div>
+                <Grid container spacing={2}>
+                    {toDoLists.map(tdl => {
+                        let tasksForRender = tasks[tdl.id]
 
-                    if (tdl.status === 'active') tasksForRender = tasksForRender.filter(t => !t.isDone)
-                    if (tdl.status === 'completed') tasksForRender = tasksForRender.filter(t => t.isDone)
-                    return (
-                        <Todolist key={tdl.id}
-                                  id={tdl.id}
-                                  heading={tdl.title}
-                                  tasks={tasksForRender}
-                                  removeTask={removeTask}
-                                  filterTasks={filterTasks}
-                                  addNewTask={addNewTask}
-                                  changeStatus={changeStatus}
-                                  filterStatus={tdl.status}
-                                  removeToDoList={removeToDoList}
-                                  changeItemValue={onChangeItemValueHandler}
-                                  onChangeListName={onChangeListNameHandler}
-                        />
-                    )
-                })}
-            </div>
-        </div>
+                        if (tdl.status === 'active') tasksForRender = tasksForRender.filter(t => !t.isDone)
+                        if (tdl.status === 'completed') tasksForRender = tasksForRender.filter(t => t.isDone)
+                        return (
+                            <Grid item>
+                                <Todolist key={tdl.id}
+                                          id={tdl.id}
+                                          heading={tdl.title}
+                                          tasks={tasksForRender}
+                                          removeTask={removeTask}
+                                          filterTasks={filterTasks}
+                                          addNewTask={addNewTask}
+                                          changeStatus={changeStatus}
+                                          filterStatus={tdl.status}
+                                          removeToDoList={removeToDoList}
+                                          changeItemValue={onChangeItemValueHandler}
+                                          onChangeListName={onChangeListNameHandler}
+                                />
+                            </Grid>
+                        )
+                    })}
+                </Grid>
+            </Container>
+        </>
     );
 }
 
