@@ -6,11 +6,11 @@ import {AddNewItem} from "./components/AddNewItem/AddNewItem";
 import {AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 
-export type filterType = 'all' | 'active' | 'completed'
-type toDoListsType = {
+export type FilterType = 'all' | 'active' | 'completed'
+export type ToDoListsType = {
     id: string
     title: string
-    status: filterType
+    status: FilterType
 }
 type tasksStateType = {
     [key: string]: taskPropsType[]
@@ -20,7 +20,7 @@ function App() {
     const toDoListID1 = v1()
     const toDoListID2 = v1()
 
-    const [toDoLists, setToDoLists] = useState<Array<toDoListsType>>([
+    const [toDoLists, setToDoLists] = useState<Array<ToDoListsType>>([
         {id: toDoListID1, title: 'What to learn?', status: 'all'},
         {id: toDoListID2, title: 'What to buy?', status: 'all'}
     ])
@@ -59,7 +59,7 @@ function App() {
         setTasks({...tasks, [listID]: tasks[listID].map( t => t.id === itemID ? {...t, title: value} : t)})
     }
 
-    const filterTasks = (toDoListID: string, value: filterType) => {
+    const filterTasks = (toDoListID: string, value: FilterType) => {
         setToDoLists(toDoLists.map( tdl => tdl.id === toDoListID ? {...tdl, status: value} : tdl))
     }
 
@@ -79,7 +79,7 @@ function App() {
     }
 
     const addNewList = (name: string) => {
-        const newToDoList: toDoListsType = {id: v1(), title: name, status: 'all'}
+        const newToDoList: ToDoListsType = {id: v1(), title: name, status: 'all'}
         setToDoLists([newToDoList, ...toDoLists])
         setTasks({[newToDoList.id]: [], ...tasks})
     }
