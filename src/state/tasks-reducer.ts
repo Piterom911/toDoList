@@ -11,7 +11,9 @@ type AddToDoListType = { type: 'ADD-TODOLIST'; tdlID: string; }
 type ActionType = RemoveTaskType | AddNewTaskType | ChangeTaskStatusType
     | ChangeTaskTitleType | AddToDoListType | RemoveToDoListType
 
-export const tasksReducer = (state: TasksStateType, action: ActionType): TasksStateType => {
+const initialState: TasksStateType = {}
+
+export const tasksReducer = (state: TasksStateType = initialState, action: ActionType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK': {
             return {
@@ -54,7 +56,7 @@ export const tasksReducer = (state: TasksStateType, action: ActionType): TasksSt
             return newState
         }
         default:
-            throw new Error("I don't understand this type")
+            return state
     }
 }
 
