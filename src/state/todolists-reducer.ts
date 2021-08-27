@@ -1,13 +1,6 @@
 import {FilterType, ToDoListsType} from "../App";
 import {v1} from "uuid";
 
-export enum ACTIONS_TYPE {
-    REMOVE_TODOLIST = 'REMOVE-TODOLIST',
-    ADD_TODOLIST = 'TODOLIST-TODOLIST',
-    CHANGE_TODOLIST_TITLE = 'CHANGE-TODOLIST-TITLE',
-    CHANGE_TODOLIST_FILTER = 'CHANGE-TODOLIST-FILTER',
-}
-
 export type RemoveToDoListType = { type: 'REMOVE-TODOLIST'; tdlID: string; }
 export type AddToDoListType = { type: 'ADD-TODOLIST'; tdlID: string; title: string;  }
 export type ChangeToDoListFilterType = { type: 'CHANGE-TODOLIST-FILTER'; id: string; status: FilterType }
@@ -18,7 +11,7 @@ export type ActionType = RemoveToDoListType
     | ChangeToDoListFilterType
     | ChangeToDoListTitleType
 
-export const toDoListReducer = (state: ToDoListsType[], action: ActionType) => {
+export const toDoListReducer = (state: ToDoListsType[], action: ActionType): ToDoListsType[] => {
     switch (action.type) {
         case 'REMOVE-TODOLIST':
             return state.filter( tdl => tdl.id !== action.tdlID)

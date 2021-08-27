@@ -2,7 +2,7 @@ import React, {ChangeEvent} from "react";
 import {FilterType} from "./App";
 import {AddNewItem} from "./components/AddNewItem/AddNewItem";
 import {EditableSpan} from "./components/EditableSpan/EditableSpan";
-import {Button, Checkbox, Grid, IconButton, Paper} from "@material-ui/core";
+import {Button, Checkbox, IconButton, Paper} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 
 type propsType = {
@@ -26,7 +26,6 @@ export type taskPropsType = {
 }
 
 export const Todolist = (props: propsType) => {
-
     const tasks = props.tasks.map(t => {
         const onChangeItemHandler = (value: string) => {
             props.changeItemValue(props.id, t.id, value)

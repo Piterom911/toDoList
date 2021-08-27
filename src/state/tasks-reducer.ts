@@ -1,16 +1,17 @@
 import {TasksStateType} from "../App";
 import {v1} from "uuid";
-import {AddToDoListType, RemoveToDoListType} from "./todolists-reducer";
+import {RemoveToDoListType} from "./todolists-reducer";
 
 type RemoveTaskType = { type: 'REMOVE-TASK'; tdlID: string; id: string }
 type AddNewTaskType = { type: 'ADD-NEW-TASK'; tdlID: string; title: string }
 type ChangeTaskStatusType = { type: 'CHANGE-TASK-STATUS'; tdlID: string; id: string; isDone: boolean }
 type ChangeTaskTitleType = { type: 'CHANGE-TASK-TITLE'; tdlID: string; id: string; title: string }
+type AddToDoListType = { type: 'ADD-TODOLIST'; tdlID: string; }
 
 type ActionType = RemoveTaskType | AddNewTaskType | ChangeTaskStatusType
     | ChangeTaskTitleType | AddToDoListType | RemoveToDoListType
 
-export const tasksReducer = (state: TasksStateType, action: ActionType) => {
+export const tasksReducer = (state: TasksStateType, action: ActionType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK': {
             return {
@@ -35,6 +36,7 @@ export const tasksReducer = (state: TasksStateType, action: ActionType) => {
         }
         case "CHANGE-TASK-TITLE": {
             return {
+                ...state,
                 [action.tdlID]: state[action.tdlID].map( task => (
                     task.id === action.id ? {...task, title: action.title} : task
                 ))
@@ -68,5 +70,5 @@ export const changeTaskStatus = (tdlID: string, id: string, isDone: boolean): Ch
 export const changeTaskTitle = (tdlID: string, id: string, title: string): ChangeTaskTitleType => (
     {type: 'CHANGE-TASK-TITLE', tdlID, id, title}
 )
-export const addNewToDoList = (tdlID: string, title: string): AddToDoListType => ({type: 'ADD-TODOLIST', tdlID, title})
+export const addNewToDoListTasksArray = (tdlID: string): AddToDoListType => ({type: 'ADD-TODOLIST', tdlID})
 export const removeTodolist = (tdlID: string): RemoveToDoListType => ({type: 'REMOVE-TODOLIST', tdlID})
