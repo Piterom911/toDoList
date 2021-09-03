@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, FocusEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, FocusEvent, useState, useCallback} from "react";
 import {TextField} from "@material-ui/core";
 
 export type EditableSpanPropsType = {
@@ -7,30 +7,31 @@ export type EditableSpanPropsType = {
     changeItemValue: (value: string) => void
 }
 
-export function EditableSpan(props: EditableSpanPropsType) {
+export const EditableSpan = React.memo(function(props: EditableSpanPropsType) {
+    console.log('Editable Span')
     const [edit, setEdit] = useState<boolean>(false)
     const [value, setValue] = useState<string>('')
 
-    const onSetEditHandler = () => {
+    const onSetEditHandler = useCallback(() => {
         setEdit(true)
         setValue(props.title)
-    }
+    }, [setEdit, setValue])
 
-    const onFocusBlur = (event: FocusEvent<HTMLInputElement>) => {
+    const onFocusBlur = useCallback((event: FocusEvent<HTMLInputElement>) => {
         props.changeItemValue(event.currentTarget.value)
         setEdit(false)
-    }
+    }, [props.changeItemValue, setEdit])
 
-    const onChangeValueHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const onChangeValueHandler = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setValue(event.currentTarget.value)
-    }
+    }, [setValue])
 
-    const onEnterKeyHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+    const onEnterKeyHandler = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
         if(event.key === 'Enter') {
             props.changeItemValue(value)
             setEdit(false)
         }
-    }
+    }, [props.changeItemValue, setEdit])
 
     return edit
         ? <TextField onKeyPress={onEnterKeyHandler}
@@ -42,4 +43,4 @@ export function EditableSpan(props: EditableSpanPropsType) {
                 className={props.isDone
                     ? 'doneTask'
                     : 'inProcess'}>{props.title} </span>
-}
+})

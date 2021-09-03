@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {taskPropsType, Todolist} from "./Todolist";
 import {AddNewItem} from "./components/AddNewItem/AddNewItem";
@@ -20,45 +20,46 @@ export type TasksStateType = {
 }
 export type FilterType = 'all' | 'active' | 'completed'
 
-function AppWithUseReducer() {
+const AppWithUseReducer = React.memo(function() {
+    console.log('App render')
 
     const toDoLists = useSelector<AppRootStateType, Array<ToDoListsType>>( state => state.toDoLists)
     const tasks = useSelector<AppRootStateType, TasksStateType>( state => state.tasks)
 
     const dispatch = useDispatch();
 
-    const removeToDoListHandler = (toDoLostID: string) => {
+    const removeToDoListHandler = useCallback((toDoLostID: string) => {
         dispatch(removeToDoList(toDoLostID))
-    }
+    }, [dispatch])
 
-    const onChangeListNameHandler = (listID: string, value: string) => {
+    const onChangeListNameHandler = useCallback((listID: string, value: string) => {
         dispatch(changeToDoListTitle(listID, value))
-    }
+    }, [dispatch])
 
-    const onChangeItemValueHandler = (listID: string, itemID: string, value: string) => {
+    const onChangeItemValueHandler = useCallback((listID: string, itemID: string, value: string) => {
         dispatch(changeTaskTitle(listID, itemID, value))
-    }
+    }, [dispatch])
 
-    const filterTasksHandler = (toDoListID: string, value: FilterType) => {
+    const filterTasksHandler = useCallback((toDoListID: string, value: FilterType) => {
         dispatch(changeToDoListFilter(toDoListID, value))
-    }
+    }, [dispatch])
 
-    const removeTaskHandler = (toDoListID: string, taskID: string) => {
+    const removeTaskHandler = useCallback((toDoListID: string, taskID: string) => {
         dispatch(removeTask(toDoListID, taskID))
-    }
+    }, [dispatch])
 
-    const addNewTaskHandler = (toDoListID: string, title: string) => {
+    const addNewTaskHandler = useCallback((toDoListID: string, title: string) => {
         dispatch(addNewTask(toDoListID, title))
-    }
+    }, [dispatch])
 
-    const changeStatusHandler = (toDoListID: string, id: string, isDone: boolean) => {
+    const changeStatusHandler = useCallback((toDoListID: string, id: string, isDone: boolean) => {
         dispatch(changeTaskStatus(toDoListID, id, isDone))
-    }
+    }, [dispatch])
 
-    const addNewListHandler = (name: string) => {
+    const addNewListHandler = useCallback((name: string) => {
         let tdlID = addToDoList(name)
         dispatch(tdlID)
-    }
+    }, [dispatch])
 
     return (
         <div>
@@ -81,15 +82,11 @@ function AppWithUseReducer() {
                 </div>
                 <Grid container spacing={2}>
                     {toDoLists.map(tdl => {
-                        let tasksForRender = tasks[tdl.id]
-
-                        if (tdl.status === 'active') tasksForRender = tasksForRender.filter(t => !t.isDone)
-                        if (tdl.status === 'completed') tasksForRender = tasksForRender.filter(t => t.isDone)
                         return (
                             <Grid item  key={tdl.id}>
                                 <Todolist id={tdl.id}
                                           heading={tdl.title}
-                                          tasks={tasksForRender}
+                                          tasks={tasks[tdl.id]}
                                           removeTask={removeTaskHandler}
                                           filterTasks={filterTasksHandler}
                                           addNewTask={addNewTaskHandler}
@@ -106,6 +103,6 @@ function AppWithUseReducer() {
             </Container>
         </div>
     );
-}
+})
 
 export default AppWithUseReducer;
