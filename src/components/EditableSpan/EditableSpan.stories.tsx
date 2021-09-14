@@ -2,7 +2,7 @@ import React from 'react';
 import {Meta, Story} from '@storybook/react';
 import {action} from "@storybook/addon-actions";
 import {EditableSpan, EditableSpanPropsType} from "./EditableSpan";
-import {MaxWidthDecorator} from "../../state/decorators/ReduxStoreProviderDecorator";
+import {MaxWidthDecorator} from "../../stories/decorators/ReduxStoreProviderDecorator";
 
 
 export default {

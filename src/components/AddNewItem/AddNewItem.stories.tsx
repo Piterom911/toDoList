@@ -2,7 +2,7 @@ import React from 'react';
 import {Meta, Story} from '@storybook/react';
 import {AddNewItem, AddNewItemPropsType} from "./AddNewItem";
 import {action} from "@storybook/addon-actions";
-import {MaxWidthDecorator} from "../../state/decorators/ReduxStoreProviderDecorator";
+import {MaxWidthDecorator} from "../../stories/decorators/ReduxStoreProviderDecorator";
 
 
 export default {
