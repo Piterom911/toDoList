@@ -2,7 +2,7 @@ import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
 import {IconButton, TextField} from "@material-ui/core";
 import {AddBox} from "@material-ui/icons";
 
-type AddNewItemPropsType = {
+export type AddNewItemPropsType = {
     addNewItem: (title: string) => void
 }
 

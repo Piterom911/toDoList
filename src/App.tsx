@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {v1} from 'uuid';
 import './App.css';
-import {taskPropsType, Todolist} from "./Todolist";
+import {taskPropsType, Todolist} from "./components/ToDoList/Todolist";
 import {AddNewItem} from "./components/AddNewItem/AddNewItem";
 import {AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";

@@ -15,7 +15,7 @@ export const EditableSpan = React.memo(function(props: EditableSpanPropsType) {
     const onSetEditHandler = useCallback(() => {
         setEdit(true)
         setValue(props.title)
-    }, [setEdit, setValue])
+    }, [setEdit, setValue, props.title])
 
     const onFocusBlur = useCallback((event: FocusEvent<HTMLInputElement>) => {
         props.changeItemValue(event.currentTarget.value)
@@ -31,7 +31,7 @@ export const EditableSpan = React.memo(function(props: EditableSpanPropsType) {
             props.changeItemValue(value)
             setEdit(false)
         }
-    }, [props.changeItemValue, setEdit])
+    }, [props.changeItemValue, setEdit, value])
 
     return edit
         ? <TextField onKeyPress={onEnterKeyHandler}
