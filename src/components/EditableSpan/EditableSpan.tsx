@@ -1,8 +1,9 @@
-import React, {ChangeEvent, KeyboardEvent, FocusEvent, useState, useCallback} from "react";
+import React, {ChangeEvent, FocusEvent, KeyboardEvent, useCallback, useState} from "react";
 import {TextField} from "@material-ui/core";
+import {TaskStatuses} from "../../api/todolists-api";
 
 export type EditableSpanPropsType = {
-    isDone: boolean
+    status: TaskStatuses
     title: string
     changeItemValue: (value: string) => void
 }
@@ -40,7 +41,7 @@ export const EditableSpan = React.memo(function(props: EditableSpanPropsType) {
                      autoFocus
                      type="text"/>
         : <span onDoubleClick={onSetEditHandler}
-                className={props.isDone
+                className={props.status === TaskStatuses.Completed
                     ? 'doneTask'
                     : 'inProcess'}>{props.title} </span>
 })

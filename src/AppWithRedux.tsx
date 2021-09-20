@@ -1,29 +1,21 @@
 import React, {useCallback} from 'react';
 import './App.css';
-import {taskPropsType, Todolist} from "./components/ToDoList/Todolist";
+import {Todolist} from "./components/ToDoList/Todolist";
 import {AddNewItem} from "./components/AddNewItem/AddNewItem";
 import {AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
-import {addToDoList, changeToDoListFilter, changeToDoListTitle, removeToDoList} from "./state/todolists-reducer";
+import {addToDoList, changeToDoListFilter, changeToDoListTitle, FilterType, removeToDoList} from "./state/todolists-reducer";
 import {addNewTask, changeTaskStatus, changeTaskTitle, removeTask} from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
+import {TaskStatuses, TaskType, ToDoListType} from "./api/todolists-api";
 
-
-export type ToDoListsType = {
-    id: string
-    title: string
-    status: FilterType
-}
 export type TasksStateType = {
-    [key: string]: taskPropsType[]
+    [key: string]: TaskType[]
 }
-export type FilterType = 'all' | 'active' | 'completed'
 
 const AppWithUseReducer = React.memo(function() {
-    console.log('App render')
-
-    const toDoLists = useSelector<AppRootStateType, Array<ToDoListsType>>( state => state.toDoLists)
+    const toDoLists = useSelector<AppRootStateType, Array<ToDoListType & {status: FilterType}>>( state => state.toDoLists)
     const tasks = useSelector<AppRootStateType, TasksStateType>( state => state.tasks)
 
     const dispatch = useDispatch();
@@ -52,8 +44,8 @@ const AppWithUseReducer = React.memo(function() {
         dispatch(addNewTask(toDoListID, title))
     }, [dispatch])
 
-    const changeStatusHandler = useCallback((toDoListID: string, id: string, isDone: boolean) => {
-        dispatch(changeTaskStatus(toDoListID, id, isDone))
+    const changeStatusHandler = useCallback((toDoListID: string, id: string, status: TaskStatuses) => {
+        dispatch(changeTaskStatus(toDoListID, id, status))
     }, [dispatch])
 
     const addNewListHandler = useCallback((name: string) => {

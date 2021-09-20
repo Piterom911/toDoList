@@ -3,6 +3,7 @@ import {Meta, Story} from '@storybook/react';
 import {action} from "@storybook/addon-actions";
 import {Task, TaskPropsType} from "./Task";
 import {MaxWidthDecorator} from "../../stories/decorators/ReduxStoreProviderDecorator";
+import {TaskStatuses} from "../../api/todolists-api";
 
 
 export default {
@@ -26,13 +27,13 @@ const baseArgs = {
 export const TaskIsNotDone = TaskDefault.bind({});
 TaskIsNotDone.args = {
     ...baseArgs,
-    task: {id: '1', title: 'JavaScript', isDone: false,},
+    task: {id: '1', title: 'JavaScript', status: TaskStatuses.New, todoListId: 'hello', addedDate: '', deadline: '', description: 'Hello 3', order: 0, startDate: '', priority: 1},
     tdlID: 'ToDoList ID'
 }
 
 export const TaskIsDone = TaskDefault.bind({});
 TaskIsDone.args = {
     ...baseArgs,
-    task: {id: '1', title: 'React', isDone: true,},
+    task: {id: '1', title: 'React', status: TaskStatuses.New, todoListId: 'hello', addedDate: '', deadline: '', description: 'Hello 3', order: 0, startDate: '', priority: 1},
     tdlID: 'ToDoList ID2'
 }

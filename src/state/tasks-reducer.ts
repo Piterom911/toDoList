@@ -1,10 +1,11 @@
 import {TasksStateType} from "../App";
 import {v1} from "uuid";
 import {RemoveToDoListType} from "./todolists-reducer";
+import {TaskStatuses} from "../api/todolists-api";
 
 type RemoveTaskType = { type: 'REMOVE-TASK'; tdlID: string; id: string }
 type AddNewTaskType = { type: 'ADD-NEW-TASK'; tdlID: string; title: string }
-type ChangeTaskStatusType = { type: 'CHANGE-TASK-STATUS'; tdlID: string; id: string; isDone: boolean }
+type ChangeTaskStatusType = { type: 'CHANGE-TASK-STATUS'; tdlID: string; id: string; status: TaskStatuses }
 type ChangeTaskTitleType = { type: 'CHANGE-TASK-TITLE'; tdlID: string; id: string; title: string }
 type AddToDoListType = { type: 'ADD-TODOLIST'; tdlID: string; }
 
@@ -22,7 +23,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             }
         }
         case "ADD-NEW-TASK": {
-            const newTask = {id: v1(), title: action.title, isDone: false}
+            const newTask = {id: v1(), title: action.title, status: TaskStatuses.New, todoListId: 'hello', addedDate: '', deadline: '', description: 'Hello 3', order: 0, startDate: '', priority: 1}
             return {
                 ...state,
                 [action.tdlID]: [newTask,...state[action.tdlID]]
@@ -32,7 +33,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             return {
                 ...state,
                 [action.tdlID]: state[action.tdlID].map( task => (
-                    task.id === action.id ? {...task, isDone: action.isDone} : task
+                    task.id === action.id ? {...task, status: action.status} : task
                 ))
             }
         }
@@ -66,8 +67,8 @@ export const removeTask = (tdlID: string, id: string): RemoveTaskType => (
 export const addNewTask = (tdlID: string, title: string): AddNewTaskType => (
     {type: 'ADD-NEW-TASK', tdlID, title}
 )
-export const changeTaskStatus = (tdlID: string, id: string, isDone: boolean): ChangeTaskStatusType => (
-    {type: 'CHANGE-TASK-STATUS', tdlID, id, isDone}
+export const changeTaskStatus = (tdlID: string, id: string, status: TaskStatuses): ChangeTaskStatusType => (
+    {type: 'CHANGE-TASK-STATUS', tdlID, id, status}
 )
 export const changeTaskTitle = (tdlID: string, id: string, title: string): ChangeTaskTitleType => (
     {type: 'CHANGE-TASK-TITLE', tdlID, id, title}

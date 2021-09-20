@@ -4,6 +4,7 @@ import {action} from "@storybook/addon-actions";
 import {Todolist, ToDoListPropsType} from "./Todolist";
 import {v1} from "uuid";
 import {MaxWidthDecorator} from "../../stories/decorators/ReduxStoreProviderDecorator";
+import {TaskStatuses} from "../../api/todolists-api";
 
 
 export default {
@@ -23,11 +24,11 @@ const baseArgs = {
     changeItemValue: action('Task name is changed'),
     removeToDoList: action('To do list is removed'),
     tasks: [
-        {id: v1(), title: "HTML&CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: false},
-        {id: v1(), title: "Milk", isDone: false},
-        {id: v1(), title: "React Book", isDone: true}
-    ]
+        {id: v1(), title: 'HTML&CSS', status: TaskStatuses.Completed, todoListId: 'hello', addedDate: '', deadline: '', description: 'Hello 3', order: 0, startDate: '', priority: 1},
+        {id: v1(), title: 'JS', status: TaskStatuses.New, todoListId: 'hello', addedDate: '', deadline: '', description: 'Hello 3', order: 0, startDate: '', priority: 1},
+        {id: v1(), title: 'Milk', status: TaskStatuses.New, todoListId: 'hello', addedDate: '', deadline: '', description: 'Hello 3', order: 0, startDate: '', priority: 1},
+        {id: v1(), title: 'React Book', status: TaskStatuses.Completed, todoListId: 'hello', addedDate: '', deadline: '', description: 'Hello 3', order: 0, startDate: '', priority: 1},
+        ]
 }
 
 export const ToDoListAll = ToDoListDefault.bind({});

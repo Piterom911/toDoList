@@ -9,6 +9,7 @@ import {
     addToDoList,
     changeToDoListFilter,
     changeToDoListTitle,
+    FilterType,
     removeToDoList,
     toDoListReducer
 } from "./state/todolists-reducer";
@@ -20,35 +21,34 @@ import {
     removeTodolist,
     tasksReducer
 } from "./state/tasks-reducer";
-
-export type FilterType = 'all' | 'active' | 'completed'
+import {TaskPriorities, TaskStatuses} from "./api/todolists-api";
 
 function AppWithUseReducer() {
     const toDoListID1 = v1()
     const toDoListID2 = v1()
 
     const [toDoLists, dispatchToDoLists] = useReducer( toDoListReducer,[
-        {id: toDoListID1, title: 'What to learn?', status: 'all'},
-        {id: toDoListID2, title: 'What to buy?', status: 'all'}
+        {id: toDoListID1, title: 'What to learn?', status: 'all', order: 0, addedDate: ''},
+        {id: toDoListID2, title: 'What to buy?', status: 'all', order: 0, addedDate: ''}
     ])
 
     const [tasks, dispatchToTasks] = useReducer(tasksReducer, {
         [toDoListID1]: [
-            {id: v1(), title: 'HTML&CSS', isDone: true},
-            {id: v1(), title: 'JS', isDone: true},
-            {id: v1(), title: 'React', isDone: false},
-            {id: v1(), title: 'Redux', isDone: false},
-            {id: v1(), title: 'Thank', isDone: false},
-            {id: v1(), title: 'Axios', isDone: false},
-            {id: v1(), title: 'Rest API', isDone: false},
+            {id: v1(), title: 'HTML&CSS', status: TaskStatuses.Completed, order: 0, addedDate: '', deadline: '', description: '', priority: TaskPriorities.Hi, startDate: '', todoListId: toDoListID1},
+            {id: v1(), title: 'JS', status: TaskStatuses.Completed, order: 0, addedDate: '', deadline: '', description: '', priority: TaskPriorities.Hi, startDate: '', todoListId: toDoListID1},
+            {id: v1(), title: 'React', status: TaskStatuses.Completed, order: 0, addedDate: '', deadline: '', description: '', priority: TaskPriorities.Hi, startDate: '', todoListId: toDoListID1},
+            {id: v1(), title: 'Redux', status: TaskStatuses.Completed, order: 0, addedDate: '', deadline: '', description: '', priority: TaskPriorities.Hi, startDate: '', todoListId: toDoListID1},
+            {id: v1(), title: 'Thank', status: TaskStatuses.New, order: 0, addedDate: '', deadline: '', description: '', priority: TaskPriorities.Hi, startDate: '', todoListId: toDoListID1},
+            {id: v1(), title: 'Axios', status: TaskStatuses.Completed, order: 0, addedDate: '', deadline: '', description: '', priority: TaskPriorities.Hi, startDate: '', todoListId: toDoListID1},
+            {id: v1(), title: 'Rest API', status: TaskStatuses.Completed, order: 0, addedDate: '', deadline: '', description: '', priority: TaskPriorities.Hi, startDate: '', todoListId: toDoListID1},
         ],
         [toDoListID2]: [
-            {id: v1(), title: 'Knowledge', isDone: true},
-            {id: v1(), title: 'Book', isDone: true},
-            {id: v1(), title: 'Apartment', isDone: false},
-            {id: v1(), title: 'Treats', isDone: false},
-            {id: v1(), title: 'Milk', isDone: false},
-            {id: v1(), title: 'Happiness', isDone: true},
+            {id: v1(), title: 'Knowledge', status: TaskStatuses.Completed, order: 0, addedDate: '', deadline: '', description: '', priority: TaskPriorities.Hi, startDate: '', todoListId: toDoListID1},
+            {id: v1(), title: 'Book', status: TaskStatuses.Completed, order: 0, addedDate: '', deadline: '', description: '', priority: TaskPriorities.Hi, startDate: '', todoListId: toDoListID1},
+            {id: v1(), title: 'Apartment', status: TaskStatuses.New, order: 0, addedDate: '', deadline: '', description: '', priority: TaskPriorities.Hi, startDate: '', todoListId: toDoListID1},
+            {id: v1(), title: 'Treats', status: TaskStatuses.Completed, order: 0, addedDate: '', deadline: '', description: '', priority: TaskPriorities.Hi, startDate: '', todoListId: toDoListID1},
+            {id: v1(), title: 'Milk', status: TaskStatuses.New, order: 0, addedDate: '', deadline: '', description: '', priority: TaskPriorities.Hi, startDate: '', todoListId: toDoListID1},
+            {id: v1(), title: 'Happiness', status: TaskStatuses.Completed, order: 0, addedDate: '', deadline: '', description: '', priority: TaskPriorities.Hi, startDate: '', todoListId: toDoListID1},
         ],
     })
 
@@ -77,8 +77,8 @@ function AppWithUseReducer() {
         dispatchToTasks(addNewTask(toDoListID, title))
     }
 
-    const changeStatusHandler = (toDoListID: string, id: string, isDone: boolean) => {
-        dispatchToTasks(changeTaskStatus(toDoListID, id, isDone))
+    const changeStatusHandler = (toDoListID: string, id: string, status: TaskStatuses) => {
+        dispatchToTasks(changeTaskStatus(toDoListID, id, status))
     }
 
     const addNewListHandler = (name: string) => {
@@ -110,8 +110,8 @@ function AppWithUseReducer() {
                     {toDoLists.map(tdl => {
                         let tasksForRender = tasks[tdl.id]
 
-                        if (tdl.status === 'active') tasksForRender = tasksForRender.filter(t => !t.isDone)
-                        if (tdl.status === 'completed') tasksForRender = tasksForRender.filter(t => t.isDone)
+                        if (tdl.status === 'active') tasksForRender = tasksForRender.filter(t => t.status === TaskStatuses.New)
+                        if (tdl.status === 'completed') tasksForRender = tasksForRender.filter(t => t.status === TaskStatuses.Completed)
                         return (
                             <Grid item  key={tdl.id}>
                                 <Todolist id={tdl.id}

@@ -1,37 +1,32 @@
-import React, {ChangeEvent, useCallback} from "react";
-import {FilterType} from "../../App";
+import React, {useCallback} from "react";
 import {AddNewItem} from "../AddNewItem/AddNewItem";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
-import {Button, Checkbox, IconButton, Paper} from "@material-ui/core";
+import {Button, IconButton, Paper} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {Task} from "../Task/Task";
+import {TaskStatuses, TaskType} from "../../api/todolists-api";
+import {FilterType} from "../../state/todolists-reducer";
 
 export type ToDoListPropsType = {
     id: string
     heading: string,
-    tasks: Array<taskPropsType>
+    tasks: Array<TaskType>
     filterStatus: FilterType
     removeTask: (toDoListID: string, id: string) => void
     filterTasks: (toDoListID: string, filterType: FilterType) => void
     addNewTask: (toDoListID: string, title: string) => void
-    changeStatus: (toDoListID: string, id: string, isDone: boolean) => void
+    changeStatus: (toDoListID: string, id: string, status: TaskStatuses) => void
     removeToDoList: (toDoListID: string) => void
     changeItemValue: (listID: string, itemID: string, value: string) => void
     onChangeListName: (listID: string, value: string) => void
-}
-
-export type taskPropsType = {
-    id: string,
-    title: string,
-    isDone: boolean
 }
 
 export const Todolist = React.memo((props: ToDoListPropsType) => {
     console.log('TodoList')
 
     let tasksForRender = props.tasks
-    if (props.filterStatus === 'active') tasksForRender = tasksForRender.filter(t => !t.isDone)
-    if (props.filterStatus === 'completed') tasksForRender = tasksForRender.filter(t => t.isDone)
+    if (props.filterStatus === 'active') tasksForRender = tasksForRender.filter(t => t.status === TaskStatuses.New)
+    if (props.filterStatus === 'completed') tasksForRender = tasksForRender.filter(t => t.status === TaskStatuses.Completed)
 
     const tasks = tasksForRender.map(t => <Task removeTask={props.removeTask}
                                                 changeItemValue={props.changeItemValue}
@@ -55,7 +50,7 @@ export const Todolist = React.memo((props: ToDoListPropsType) => {
     return (
         <Paper style={{padding: "15px" }}>
             <h3>
-                <EditableSpan isDone={false} title={props.heading} changeItemValue={onChangeListName} />
+                <EditableSpan status={TaskStatuses.New} title={props.heading} changeItemValue={onChangeListName} />
                 <IconButton onClick={removeToDoListHandler}>
                     <Delete />
                 </IconButton>
