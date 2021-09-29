@@ -21,20 +21,17 @@ export enum TaskPriorities {
     Urgently = 3,
     Later = 4
 }
-
 export type ToDoListType = {
     "id": string
     "title": string
     "addedDate": string
     "order": number
 }
-
 type CommonRequestToDoListType<D = {}> = {
     resultCode: number
     messages: string[],
     data: D
 }
-
 export type TaskType = {
     description: string
     title: string
@@ -47,7 +44,6 @@ export type TaskType = {
     order: number
     addedDate: string
 }
-
 export type UpdateTaskType = {
     title: string
     description: string
@@ -56,11 +52,14 @@ export type UpdateTaskType = {
     startDate: string
     deadline: string
 }
-
 type AllTasksType = {
     items: TaskType[]
     totalCount: number
     error: string
+}
+export type UpdateDataType = {
+    title?: string
+    status?: TaskStatuses
 }
 
 export const toDoListsAPI = {
@@ -80,17 +79,10 @@ export const toDoListsAPI = {
         return instance.get<AllTasksType>(`todo-lists/${todolistId}/tasks`)
     },
     createTask(todolistId: string, title: string) {
-        return instance.post<CommonRequestToDoListType>(`todo-lists/${todolistId}/tasks`, {title})
+        return instance.post<CommonRequestToDoListType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, {title})
     },
-    updateTask(todolistId: string, taskId: string) {
-        return instance.put<CommonRequestToDoListType>(`todo-lists/${todolistId}/tasks/${taskId}`, {
-            title: 'I AM UPDATED TASK!!!! YOU HOOOO!!!',
-            description: 'This Is Some Description',
-            priority: 2,
-            status: 1,
-            deadline: '2021-10-18T21:12:13.063',
-            startDate: '2021-09-16T16:48:19.22',
-        })
+    updateTask(todolistId: string, taskId: string, newTaskData: UpdateTaskType) {
+        return instance.put<CommonRequestToDoListType>(`todo-lists/${todolistId}/tasks/${taskId}`, newTaskData)
     },
     deleteTasks(todolistId: string, taskId: string) {
         return instance.delete<CommonRequestToDoListType>(`todo-lists/${todolistId}/tasks/${taskId}`)

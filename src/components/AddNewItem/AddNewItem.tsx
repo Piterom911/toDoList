@@ -7,7 +7,6 @@ export type AddNewItemPropsType = {
 }
 
 export const AddNewItem = React.memo(function(props: AddNewItemPropsType) {
-    console.log('AddNewItem')
     const [inputValue, setInputValue] = useState('')
     const [error, setError] = useState('')
 

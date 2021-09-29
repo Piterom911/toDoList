@@ -6,19 +6,17 @@ import {AddNewItem} from "./components/AddNewItem/AddNewItem";
 import {AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {
-    addToDoList,
-    changeToDoListFilter,
-    changeToDoListTitle,
+    addToDoListAC,
+    changeToDoListFilterAC,
+    changeToDoListTitleAC,
     FilterType,
-    removeToDoList,
+    removeToDoListAC,
     toDoListReducer
 } from "./state/todolists-reducer";
 import {
-    addNewTask,
-    changeTaskStatus,
-    changeTaskTitle,
-    removeTask,
-    removeTodolist,
+    addNewTaskAC,
+    removeTaskAC,
+    removeTodolistAC,
     tasksReducer
 } from "./state/tasks-reducer";
 import {TaskPriorities, TaskStatuses} from "./api/todolists-api";
@@ -53,36 +51,45 @@ function AppWithUseReducer() {
     })
 
     const removeToDoListHandler = (toDoLostID: string) => {
-        dispatchToDoLists(removeToDoList(toDoLostID))
-        dispatchToTasks(removeTodolist(toDoLostID))
+        dispatchToDoLists(removeToDoListAC(toDoLostID))
+        dispatchToTasks(removeTodolistAC(toDoLostID))
     }
 
     const onChangeListNameHandler = (listID: string, value: string) => {
-        dispatchToDoLists(changeToDoListTitle(listID, value))
+        dispatchToDoLists(changeToDoListTitleAC(listID, value))
     }
 
     const onChangeItemValueHandler = (listID: string, itemID: string, value: string) => {
-        dispatchToTasks(changeTaskTitle(listID, itemID, value))
+        // dispatchToTasks(changeTaskTitleAC(listID, itemID, value))
     }
 
     const filterTasksHandler = (toDoListID: string, value: FilterType) => {
-        dispatchToDoLists(changeToDoListFilter(toDoListID, value))
+        dispatchToDoLists(changeToDoListFilterAC(toDoListID, value))
     }
 
     const removeTaskHandler = (toDoListID: string, taskID: string) => {
-        dispatchToTasks(removeTask(toDoListID, taskID))
+        dispatchToTasks(removeTaskAC(toDoListID, taskID))
     }
 
     const addNewTaskHandler = (toDoListID: string, title: string) => {
-        dispatchToTasks(addNewTask(toDoListID, title))
+        dispatchToTasks(addNewTaskAC(toDoListID, {description: 'string',
+            title: 'string',
+            status: TaskStatuses.New,
+            priority: 0,
+            startDate: '',
+            deadline: 'string',
+            id: 'Jenifer',
+            todoListId: 'Some id',
+            order: 0,
+            addedDate: 'string',}))
     }
 
     const changeStatusHandler = (toDoListID: string, id: string, status: TaskStatuses) => {
-        dispatchToTasks(changeTaskStatus(toDoListID, id, status))
+        // dispatchToTasks(changeTaskStatusAC(toDoListID, id, status))
     }
 
     const addNewListHandler = (name: string) => {
-        let tdlID = addToDoList(name)
+        let tdlID = addToDoListAC(name)
         dispatchToDoLists(tdlID)
         dispatchToTasks(tdlID)
     }
