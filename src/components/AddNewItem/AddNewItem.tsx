@@ -17,7 +17,7 @@ export const AddNewItem = React.memo(function(props: AddNewItemPropsType) {
             setError('This field is required!')
         }
         setInputValue('')
-    }, [inputValue, props.addNewItem])
+    }, [props, inputValue])
 
     const onInputChangeHandler = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.currentTarget.value)

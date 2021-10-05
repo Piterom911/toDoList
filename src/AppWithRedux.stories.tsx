@@ -1,11 +1,11 @@
 import React from 'react';
 import {Meta, Story} from '@storybook/react';
-import AppWithRedux from "./AppWithRedux";
+import AppWithRedux from "./app/App";
 import {ReduxStoreProviderDecorator} from "./stories/decorators/ReduxStoreProviderDecorator";
 
 
 export default {
-    title: 'App Components/App Main',
+    title: 'AppWithUseState Components/AppWithUseState Main',
     component: AppWithRedux,
     decorators: [ReduxStoreProviderDecorator]
 } as Meta;

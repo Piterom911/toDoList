@@ -3,14 +3,14 @@ import {
     changeToDoListFilterAC,
     changeToDoListTitleAC, FilterType,
     removeToDoListAC, setTDLsAC,
-    toDoListReducer, ToDoListWithStatusType
+    toDoListReducer, ToDoListWithDomainType
 } from './todolists-reducer';
 import {v1} from 'uuid';
 
 let todolistId1: string
 let todolistId2: string
 
-let startState: Array<ToDoListWithStatusType> = []
+let startState: Array<ToDoListWithDomainType> = []
 
 beforeEach( () => {
     todolistId1 = v1();
@@ -24,7 +24,7 @@ beforeEach( () => {
 
 test('correct todolist should be removed', () => {
 
-    const startState: Array<ToDoListWithStatusType> = [
+    const startState: Array<ToDoListWithDomainType> = [
         {id: todolistId1, title: "What to learn", status: "all", addedDate: '', order: 1 },
         {id: todolistId2, title: "What to buy", status: "all", addedDate: '', order: 1 }
     ]
@@ -37,7 +37,7 @@ test('correct todolist should be removed', () => {
 
 test('set todolists', () => {
 
-    let newTodolistTitle: Array<ToDoListWithStatusType> = [
+    let newTodolistTitle: Array<ToDoListWithDomainType> = [
         {id: todolistId1, title: "Some text", status: "all", addedDate: '', order: 1 },
         {id: todolistId1, title: "Samurai", status: "all", addedDate: '', order: 1 },
         {id: todolistId2, title: "Hello world", status: "completed", addedDate: '', order: 1 }

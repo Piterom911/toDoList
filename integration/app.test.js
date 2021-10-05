@@ -7,7 +7,7 @@ describe('addItemForm', () => {
         // API from jest-image-snapshot
         expect(image).toMatchImageSnapshot();
     });
-    it('App Main example, visually looks correct', async () => {
+    it('AppWithUseState Main example, visually looks correct', async () => {
         // APIs from jest-puppeteer
         await page.goto('http://localhost:9009/iframe.html?id=app-components-app-main--app&viewMode=story');
         const image = await page.screenshot();

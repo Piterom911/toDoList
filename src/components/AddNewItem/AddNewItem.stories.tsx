@@ -6,7 +6,7 @@ import {MaxWidthDecorator} from "../../stories/decorators/ReduxStoreProviderDeco
 
 
 export default {
-    title: 'App Components/Add Item Form',
+    title: 'AppWithUseState Components/Add Item Form',
     component: AddNewItem,
     decorators: [ MaxWidthDecorator ],
     argTypes: {

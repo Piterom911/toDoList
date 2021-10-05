@@ -3,17 +3,19 @@ import {AddNewItem} from "../AddNewItem/AddNewItem";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Button, IconButton, Paper} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import {Task} from "../Task/Task";
+import {Task} from "./Task/Task";
 import {TaskStatuses, TaskType} from "../../api/todolists-api";
 import {FilterType} from "../../state/todolists-reducer";
 import {useDispatch} from "react-redux";
-import {setTasks} from "../../state/tasks-reducer";
+import {setTasks, TaskWithLocalDataType} from "../../state/tasks-reducer";
+import {RequestStatusType} from "../../state/appReducer";
 
 export type ToDoListPropsType = {
     id: string
     heading: string,
-    tasks: Array<TaskType>
+    tasks: Array<TaskType & TaskWithLocalDataType>
     filterStatus: FilterType
+    entityStatus: RequestStatusType
     removeTask: (toDoListID: string, id: string) => void
     filterTasks: (toDoListID: string, filterType: FilterType) => void
     addNewTask: (toDoListID: string, title: string) => void
@@ -28,7 +30,7 @@ export const Todolist = React.memo((props: ToDoListPropsType) => {
 
     useEffect( () => {
         dispatch(setTasks(props.id))
-    }, [])
+    }, [dispatch, props.id])
 
     let tasksForRender = props.tasks
     if (props.filterStatus === 'active') tasksForRender = tasksForRender.filter(t => t.status === TaskStatuses.New)
@@ -39,22 +41,23 @@ export const Todolist = React.memo((props: ToDoListPropsType) => {
                                                 changeStatus={props.changeStatus}
                                                 tdlID={props.id} task={t} key={t.id} />)
 
-    const removeToDoListHandler = useCallback(() => props.removeToDoList(props.id), [props.id, props.removeToDoList])
+    const removeToDoListHandler = useCallback(() => props.removeToDoList(props.id), [props])
 
-    const onAllFilterTasksHandler = useCallback(() => props.filterTasks(props.id, 'all'), [props.filterTasks, props.id])
-    const onActiveFilterTasksHandler = useCallback(() => props.filterTasks(props.id, 'active'), [props.filterTasks, props.id])
-    const onCompletedFilterTasksHandler = useCallback(() => props.filterTasks(props.id, 'completed'), [props.filterTasks, props.id])
+    const onAllFilterTasksHandler = useCallback(() => props.filterTasks(props.id, 'all'), [props])
+    const onActiveFilterTasksHandler = useCallback(() => props.filterTasks(props.id, 'active'), [props])
+    const onCompletedFilterTasksHandler = useCallback(() => props.filterTasks(props.id, 'completed'), [props])
 
     const addNewTask = useCallback((title: string) => {
         props.addNewTask(props.id, title)
-    }, [props.addNewTask, props.id])
+    }, [props])
 
     const onChangeListName = useCallback((value: string) => {
         props.onChangeListName(props.id, value)
-    }, [props.onChangeListName, props.id])
+    }, [props])
 
+    console.log(props.entityStatus)
     return (
-        <Paper style={{padding: "15px" }}>
+        <Paper className={`toDoListsWrapper ${props.entityStatus === 'loading' && 'entityRequest'}`}>
             <h3>
                 <EditableSpan status={TaskStatuses.New} title={props.heading} changeItemValue={onChangeListName} />
                 <IconButton onClick={removeToDoListHandler}>
@@ -66,9 +69,9 @@ export const Todolist = React.memo((props: ToDoListPropsType) => {
                 {tasks}
             </ul>
             <div>
-                <Button color="primary" disabled={props.filterStatus === 'all'} variant={props.filterStatus === 'all' ? 'outlined' : 'contained'} onClick={ onAllFilterTasksHandler }>All</Button>
-                <Button color="secondary" disabled={props.filterStatus === 'active'} variant={props.filterStatus === 'active' ? 'outlined' : 'contained'} onClick={ onActiveFilterTasksHandler }>Active</Button>
-                <Button color="default" disabled={props.filterStatus === 'completed'} variant={props.filterStatus === 'completed' ? 'outlined' : 'contained'} onClick={ onCompletedFilterTasksHandler }>Completed</Button>
+                <Button style={{margin: '0 5px'}} color="secondary" disabled={props.filterStatus === 'all'} variant={props.filterStatus === 'all' ? 'outlined' : 'contained'} onClick={ onAllFilterTasksHandler }>All</Button>
+                <Button style={{margin: '0 5px'}} color="primary" disabled={props.filterStatus === 'active'} variant={props.filterStatus === 'active' ? 'outlined' : 'contained'} onClick={ onActiveFilterTasksHandler }>Active</Button>
+                <Button style={{margin: '0 5px'}} color="primary" disabled={props.filterStatus === 'completed'} variant={props.filterStatus === 'completed' ? 'outlined' : 'contained'} onClick={ onCompletedFilterTasksHandler }>Completed</Button>
             </div>
         </Paper>
     )

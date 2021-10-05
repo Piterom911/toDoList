@@ -7,7 +7,7 @@ import {TaskStatuses} from "../../api/todolists-api";
 
 
 export default {
-    title: 'App Components/Editable Span',
+    title: 'AppWithUseState Components/Editable Span',
     component: EditableSpan,
     decorators: [ MaxWidthDecorator ],
 } as Meta;

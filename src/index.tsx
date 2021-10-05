@@ -2,12 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import AppWithRedux from "./AppWithRedux";
+import App from "./app/App";
 import {Provider} from "react-redux";
-import {store} from './state/store';
+import {store} from './app/store';
+import {createTheme, ThemeProvider} from "@material-ui/core";
+
+const theme = createTheme();
 
 ReactDOM.render(<Provider store={store}>
-                    <AppWithRedux/>
-                </Provider>, document.getElementById('root'));
+    <ThemeProvider theme={theme}>
+        <App />
+    </ThemeProvider>
+</Provider>, document.getElementById('root'));
 
 serviceWorker.unregister();

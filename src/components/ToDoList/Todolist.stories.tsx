@@ -8,7 +8,7 @@ import {TaskStatuses} from "../../api/todolists-api";
 
 
 export default {
-    title: 'App Components/To Do List',
+    title: 'AppWithUseState Components/To Do List',
     component: Todolist,
     decorators: [MaxWidthDecorator]
 } as Meta;
@@ -31,29 +31,32 @@ const baseArgs = {
         ]
 }
 
-export const ToDoListAll = ToDoListDefault.bind({});
-ToDoListAll.args = {
-    ...baseArgs,
-    id: '2354e',
-    filterStatus: 'all',
-    heading: 'To Do List All',
-}
-
-export const ToDoListActive = ToDoListDefault.bind({});
-ToDoListActive.args = {
-    ...baseArgs,
-    id: '2354e',
-    filterStatus: 'active',
-    heading: 'To Do List Active',
-}
-
-export const ToDoListCompleted = ToDoListDefault.bind({});
-ToDoListCompleted.args = {
-    ...baseArgs,
-    id: '2354e',
-    filterStatus: 'completed',
-    heading: 'To Do List Completed',
-}
+// export const ToDoListAll = ToDoListDefault.bind({});
+// ToDoListAll.args = {
+//     ...baseArgs,
+//     entityStatus: 'idle',
+//     id: '2354e',
+//     filterStatus: 'all',
+//     heading: 'To Do List All',
+// }
+//
+// export const ToDoListActive = ToDoListDefault.bind({});
+// ToDoListActive.args = {
+//     ...baseArgs,
+//     id: '2354e',
+//     filterStatus: 'active',
+//     heading: 'To Do List Active',
+//     entityStatus: 'succeeded',
+// }
+//
+// export const ToDoListCompleted = ToDoListDefault.bind({});
+// ToDoListCompleted.args = {
+//     ...baseArgs,
+//     id: '2354e',
+//     filterStatus: 'completed',
+//     heading: 'To Do List Completed',
+//     entityStatus: 'failed',
+// }
 
 // const Template: Story<ToDoListPropsType> = (args) => <Todolist {...args} />;
 //
