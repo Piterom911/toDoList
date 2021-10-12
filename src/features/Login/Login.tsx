@@ -39,8 +39,8 @@ export const Login = () => {
             }
             if (!values.password) {
                 errors.password = 'The password field is required'
-            } else if (values.password.length < 5) {
-                errors.password = 'The password should contain minimum 5 characters'
+            } else if (values.password.length < 4) {
+                errors.password = 'The password should contain minimum 3 characters'
             }
             return errors;
         },
