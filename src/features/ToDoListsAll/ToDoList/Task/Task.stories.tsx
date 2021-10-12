@@ -2,8 +2,8 @@ import React from 'react';
 import {Meta, Story} from '@storybook/react';
 import {action} from "@storybook/addon-actions";
 import {Task, TaskPropsType} from "./Task";
-import {MaxWidthDecorator} from "../../../stories/decorators/ReduxStoreProviderDecorator";
-import {TaskStatuses} from "../../../api/todolists-api";
+import {MaxWidthDecorator} from "../../../../stories/decorators/ReduxStoreProviderDecorator";
+import {TaskStatuses} from "../../../../api/todolists-api";
 
 
 export default {

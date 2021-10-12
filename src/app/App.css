@@ -60,6 +60,7 @@ input {
   transition: background-color .15s ease-in-out;
   border-radius: 5px;
   position: relative;
+  /*cursor: url('https://iconarchive.com/show/outline-icons-by-iconsmind/Pen-icon.png'), default;*/
 }
 
 .listItem:nth-child(odd) {

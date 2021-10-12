@@ -17,16 +17,16 @@ beforeEach( () => {
     todolistId2 = v1();
 
     startState = [
-        {id: todolistId1, title: "What to learn", status: "all", addedDate: '', order: 1 },
-        {id: todolistId2, title: "What to buy", status: "all", addedDate: '', order: 1 }
+        {id: todolistId1, entityStatus: 'idle', title: "What to learn", status: "all", addedDate: '', order: 1 },
+        {id: todolistId2, entityStatus: 'idle', title: "What to buy", status: "all", addedDate: '', order: 1 }
     ]
 })
 
 test('correct todolist should be removed', () => {
 
     const startState: Array<ToDoListWithDomainType> = [
-        {id: todolistId1, title: "What to learn", status: "all", addedDate: '', order: 1 },
-        {id: todolistId2, title: "What to buy", status: "all", addedDate: '', order: 1 }
+        {id: todolistId1, entityStatus: 'idle', title: "What to learn", status: "all", addedDate: '', order: 1 },
+        {id: todolistId2, entityStatus: 'idle', title: "What to buy", status: "all", addedDate: '', order: 1 }
     ]
 
     const endState = toDoListReducer(startState, removeToDoListAC(todolistId1))
@@ -38,9 +38,9 @@ test('correct todolist should be removed', () => {
 test('set todolists', () => {
 
     let newTodolistTitle: Array<ToDoListWithDomainType> = [
-        {id: todolistId1, title: "Some text", status: "all", addedDate: '', order: 1 },
-        {id: todolistId1, title: "Samurai", status: "all", addedDate: '', order: 1 },
-        {id: todolistId2, title: "Hello world", status: "completed", addedDate: '', order: 1 }
+        {id: todolistId1, entityStatus: 'idle', title: "Some text", status: "all", addedDate: '', order: 1 },
+        {id: todolistId1, entityStatus: 'idle', title: "Samurai", status: "all", addedDate: '', order: 1 },
+        {id: todolistId2, entityStatus: 'idle', title: "Hello world", status: "completed", addedDate: '', order: 1 }
     ]
 
     const endState = toDoListReducer(startState, setTDLsAC(newTodolistTitle))
@@ -51,12 +51,12 @@ test('set todolists', () => {
 
 test('correct todolist should be added', () => {
 
-    let newTodolistTitle = "New Todolist";
+    let newTodolist = {id: todolistId2, entityStatus: 'idle', title: "Hello world33", status: "completed", addedDate: '', order: 1 };
 
-    const endState = toDoListReducer(startState, addToDoListAC(newTodolistTitle))
+    const endState = toDoListReducer(startState, addToDoListAC(newTodolist))
 
     expect(endState.length).toBe(3);
-    expect(endState[2].title).toBe(newTodolistTitle);
+    expect(endState[0].title).toBe(newTodolist.title);
 });
 
 test('correct todolist should change its name', () => {

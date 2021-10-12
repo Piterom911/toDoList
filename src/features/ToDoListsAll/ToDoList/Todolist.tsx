@@ -1,14 +1,14 @@
 import React, {useCallback, useEffect} from "react";
-import {AddNewItem} from "../AddNewItem/AddNewItem";
-import {EditableSpan} from "../EditableSpan/EditableSpan";
+import {AddNewItem} from "../../../components/AddNewItem/AddNewItem";
+import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
 import {Button, IconButton, Paper} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {Task} from "./Task/Task";
-import {TaskStatuses, TaskType} from "../../api/todolists-api";
-import {FilterType} from "../../state/todolists-reducer";
+import {TaskStatuses, TaskType} from "../../../api/todolists-api";
+import {FilterType} from "../todolists-reducer";
 import {useDispatch} from "react-redux";
-import {setTasks, TaskWithLocalDataType} from "../../state/tasks-reducer";
-import {RequestStatusType} from "../../state/appReducer";
+import {setTasks, TaskWithLocalDataType} from "../tasks-reducer";
+import {RequestStatusType} from "../../../app/appReducer";
 
 export type ToDoListPropsType = {
     id: string
@@ -55,7 +55,6 @@ export const Todolist = React.memo((props: ToDoListPropsType) => {
         props.onChangeListName(props.id, value)
     }, [props])
 
-    console.log(props.entityStatus)
     return (
         <Paper className={`toDoListsWrapper ${props.entityStatus === 'loading' && 'entityRequest'}`}>
             <h3>

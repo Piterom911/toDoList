@@ -1,7 +1,7 @@
-import {toDoListsAPI, ToDoListType} from "../api/todolists-api";
-import {ThunkType} from "../app/store";
-import {RequestStatusType, setError, setRequestStatus} from "./appReducer";
-import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
+import {toDoListsAPI, ToDoListType} from "../../api/todolists-api";
+import {ThunkType} from "../../app/store";
+import {RequestStatusType, setError, setRequestStatus} from "../../app/appReducer";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 export type ToDoListDomainType = {
     entityStatus: RequestStatusType
@@ -60,9 +60,15 @@ export type ChangeToDoListTitleACType = ReturnType<typeof changeToDoListTitleAC>
 //thunks
 export const setToDoListsTC = (): ThunkType => async dispatch => {
     dispatch(setRequestStatus('loading'))
-    const response = await toDoListsAPI.getToDoLists()
-    dispatch(setTDLsAC(response.data))
-    dispatch(setRequestStatus('succeeded'))
+    try {
+        const response = await toDoListsAPI.getToDoLists()
+        dispatch(setTDLsAC(response.data))
+        dispatch(setRequestStatus('succeeded'))
+    } catch (error) {
+        handleServerNetworkError(error, dispatch)
+    } finally {
+        dispatch(setRequestStatus('succeeded'))
+    }
 }
 export const createToDoList = (title: string): ThunkType => async dispatch => {
     dispatch(setRequestStatus('loading'))
@@ -76,6 +82,8 @@ export const createToDoList = (title: string): ThunkType => async dispatch => {
         }
     } catch (error) {
         handleServerNetworkError(error, dispatch)
+    } finally {
+        dispatch(setRequestStatus('succeeded'))
     }
 }
 
@@ -96,6 +104,8 @@ export const deleteToDoList = (id: string): ThunkType => async dispatch => {
         dispatch(setError(error.message ?? 'Some Error occurred!'))
         dispatch(setRequestStatus('failed'))
         dispatch(setEntityStatus(id, 'failed'))
+    } finally {
+        dispatch(setRequestStatus('succeeded'))
     }
 }
 export const updateToDoList = (id: string, title: string): ThunkType => async dispatch => {
@@ -114,5 +124,7 @@ export const updateToDoList = (id: string, title: string): ThunkType => async di
         dispatch(setError(error.message ?? 'Some Error occurred!'))
         dispatch(setRequestStatus('failed'))
         dispatch(setEntityStatus(id, 'failed'))
+    } finally {
+        dispatch(setRequestStatus('succeeded'))
     }
 }

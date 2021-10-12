@@ -61,6 +61,30 @@ export type UpdateDataType = {
     title?: string
     status?: TaskStatuses
 }
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: string
+}
+export type MeResponseType = {
+    id: string
+    email: string
+    login: string
+}
+
+export const authAPI = {
+    //password zLTUyiXvk_cf9fk
+    me() {
+        return instance.get<ResponseType<MeResponseType>>('auth/me')
+    },
+    login(data: LoginParamsType) {
+        return instance.post<ResponseType<{ userId: number }>>('auth/login', data)
+    },
+    logout () {
+        return instance.delete<ResponseType>('auth/login')
+    },
+}
 
 export const toDoListsAPI = {
     getToDoLists() {

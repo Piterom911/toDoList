@@ -1,5 +1,5 @@
 import {ResponseType} from "../api/todolists-api";
-import {setError, SetErrorActionType, setRequestStatus, SetRequestStatusActionType} from "../state/appReducer";
+import {setError, SetErrorActionType, setRequestStatus, SetRequestStatusActionType} from "../app/appReducer";
 import {Dispatch} from "redux";
 
 

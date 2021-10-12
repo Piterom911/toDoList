@@ -3,8 +3,8 @@ import {Meta, Story} from '@storybook/react';
 import {action} from "@storybook/addon-actions";
 import {Todolist, ToDoListPropsType} from "./Todolist";
 import {v1} from "uuid";
-import {MaxWidthDecorator} from "../../stories/decorators/ReduxStoreProviderDecorator";
-import {TaskStatuses} from "../../api/todolists-api";
+import {MaxWidthDecorator} from "../../../stories/decorators/ReduxStoreProviderDecorator";
+import {TaskStatuses} from "../../../api/todolists-api";
 
 
 export default {

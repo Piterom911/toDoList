@@ -1,13 +1,13 @@
-import {TasksStateType} from "../AppWithUseState";
-import {addToDoListAC, toDoListReducer, ToDoListWithDomainType} from "./todolists-reducer";
-import {removeTodolistAC, tasksReducer} from "./tasks-reducer";
+import {addToDoListAC, toDoListReducer, ToDoListWithDomainType} from "../features/ToDoListsAll/todolists-reducer";
+import {LocalTasksType, removeTodolistAC, tasksReducer} from "../features/ToDoListsAll/tasks-reducer";
 import {TaskStatuses} from "../api/todolists-api";
 
 test('ids should be equals', () => {
-    const startTasksState: TasksStateType = {};
+    const startTasksState: LocalTasksType = {};
     const startTodolistsState: Array<ToDoListWithDomainType> = [];
 
-    const action = addToDoListAC("new todolist");
+    const action = addToDoListAC({"id": 'todolistId2', "title": 'new todolist',
+        "addedDate": 'string', "order": 1});
 
     const endTasksState = tasksReducer(startTasksState, action)
     const endTodolistsState = toDoListReducer(startTodolistsState, action)
@@ -16,22 +16,22 @@ test('ids should be equals', () => {
     const idFromTasks = keys[0];
     const idFromTodolists = endTodolistsState[0].id;
 
-    expect(idFromTasks).toBe(action.tdlID);
-    expect(idFromTodolists).toBe(action.tdlID);
+    expect(idFromTasks).toBe(action.payload.id);
+    expect(idFromTodolists).toBe(action.payload.id);
 });
 
 
 test('property with todolistId should be deleted', () => {
-    const startState: TasksStateType = {
+    const startState: LocalTasksType = {
         "todolistId1": [
-            { id: "1", title: "CSS", status: TaskStatuses.New, startDate: '', priority: 0, order: 1, deadline: '', description: '', addedDate: '', todoListId: '' },
-            { id: "2", title: "JS", status: TaskStatuses.Completed, startDate: '', priority: 0, order: 1, deadline: '', description: '', addedDate: '', todoListId: ''  },
-            { id: "3", title: "React", status: TaskStatuses.New, startDate: '', priority: 0, order: 1, deadline: '', description: '', addedDate: '', todoListId: ''  }
+            { id: "1", entityStatus: 'idle', title: "CSS", status: TaskStatuses.New, startDate: '', priority: 0, order: 1, deadline: '', description: '', addedDate: '', todoListId: '' },
+            { id: "2", entityStatus: 'idle', title: "JS", status: TaskStatuses.Completed, startDate: '', priority: 0, order: 1, deadline: '', description: '', addedDate: '', todoListId: ''  },
+            { id: "3", entityStatus: 'idle', title: "React", status: TaskStatuses.New, startDate: '', priority: 0, order: 1, deadline: '', description: '', addedDate: '', todoListId: ''  }
         ],
         "todolistId2": [
-            { id: "1", title: "bread", status: TaskStatuses.New, startDate: '', priority: 0, order: 1, deadline: '', description: '', addedDate: '', todoListId: ''  },
-            { id: "2", title: "milk", status: TaskStatuses.Completed, startDate: '', priority: 0, order: 1, deadline: '', description: '', addedDate: '', todoListId: ''  },
-            { id: "3", title: "tea", status: TaskStatuses.New, startDate: '', priority: 0, order: 1, deadline: '', description: '', addedDate: '', todoListId: '' }
+            { id: "1", entityStatus: 'idle', title: "bread", status: TaskStatuses.New, startDate: '', priority: 0, order: 1, deadline: '', description: '', addedDate: '', todoListId: ''  },
+            { id: "2", entityStatus: 'idle', title: "milk", status: TaskStatuses.Completed, startDate: '', priority: 0, order: 1, deadline: '', description: '', addedDate: '', todoListId: ''  },
+            { id: "3", entityStatus: 'idle', title: "tea", status: TaskStatuses.New, startDate: '', priority: 0, order: 1, deadline: '', description: '', addedDate: '', todoListId: '' }
         ]
     };
 

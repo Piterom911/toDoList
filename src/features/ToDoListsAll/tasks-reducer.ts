@@ -1,8 +1,8 @@
-import {TaskType, toDoListsAPI, UpdateDataType, UpdateTaskType} from "../api/todolists-api";
+import {TaskType, toDoListsAPI, UpdateDataType, UpdateTaskType} from "../../api/todolists-api";
 import {AddToDoListACType, SetTDLsACType} from "./todolists-reducer";
-import {AppRootStateType, ThunkType} from "../app/store";
-import {RequestStatusType, setError, setRequestStatus} from "./appReducer";
-import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
+import {AppRootStateType, ThunkType} from "../../app/store";
+import {RequestStatusType, setError, setRequestStatus} from "../../app/appReducer";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 const initialState: LocalTasksType = {}
 
